@@ -1,0 +1,1116 @@
+[
+    {
+        "id": "f8388621e56e3569",
+        "type": "tab",
+        "label": "solarPanel-starSchemas",
+        "disabled": false,
+        "info": "",
+        "env": []
+    },
+    {
+        "id": "209f9989140286c1",
+        "type": "change",
+        "z": "f8388621e56e3569",
+        "name": "deviceData",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload[\"2075963\"].devices",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 610,
+        "y": 180,
+        "wires": [
+            [
+                "68edfbbef853f8d1"
+            ]
+        ]
+    },
+    {
+        "id": "68edfbbef853f8d1",
+        "type": "split",
+        "z": "f8388621e56e3569",
+        "name": "",
+        "splt": "\\n",
+        "spltType": "str",
+        "arraySplt": 1,
+        "arraySpltType": "len",
+        "stream": false,
+        "addname": "",
+        "x": 770,
+        "y": 180,
+        "wires": [
+            [
+                "0cd5db3e141df74c"
+            ]
+        ]
+    },
+    {
+        "id": "0cd5db3e141df74c",
+        "type": "change",
+        "z": "f8388621e56e3569",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "json.data",
+                "pt": "msg",
+                "to": "payload",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "\"INSERT INTO solarpanelfact\t    (FactID, DateID, TimeID, StorageID, tanggalWaktu, TotalPVOutput, TotalGridImport, TotalLoadConsumption, PVPower, GridPower, ConsumptionPower, RateVA)\tSELECT\t    0,\t    dd.DateID,\t    HOUR(NOW()) + 1 AS TimeID,\t    sd.StorageID,\t    '\" & $fromMillis($toMillis($now()), '[Y]-[M]-[D] [H01]:[m01]:[s01]', '+0700') & \"',\t    \" & payload.totalData.epvToday & \",\t    \" & payload.totalData.eToUserToday & \",\t    \" & payload.totalData.useEnergyToday & \", \t    \" & payload.statusData.panelPower & \", \t    \" & payload.statusData.gridPower & \", \t    \" & payload.statusData.loadPower & \", \t    \" & payload.statusData.rateVA & \"\tFROM\t    storagedimension sd\tINNER JOIN\t    datedimension dd\tON\t    dd.TanggalYMD = '\" & $fromMillis($toMillis($now()), '[Y]-[M]-[D]', '+0700') & \"'\tWHERE\t    sd.StorageSN = '\" & payload.deviceData.sn & \"';\t\"",
+                "tot": "jsonata"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1120,
+        "y": 180,
+        "wires": [
+            [
+                "402adb39d4dcc8ac"
+            ]
+        ]
+    },
+    {
+        "id": "17a92169c717b168",
+        "type": "growatt",
+        "z": "f8388621e56e3569",
+        "confignode": "7dacbed44af377d6",
+        "name": "pci lighting (Growatt)",
+        "optionplantid": "2075963",
+        "optionplantdata": 1,
+        "optiondevicedata": 1,
+        "optionweather": 1,
+        "optiontotaldata": 1,
+        "optionstatusdata": 1,
+        "optiondevicetyp": 0,
+        "optionhistorylast": 1,
+        "optionhistoryall": 0,
+        "x": 360,
+        "y": 180,
+        "wires": [
+            [
+                "209f9989140286c1",
+                "0f6d575a6c81f668",
+                "e6c8f180438731f5"
+            ]
+        ]
+    },
+    {
+        "id": "5bd7e19e5d14b270",
+        "type": "change",
+        "z": "f8388621e56e3569",
+        "name": "deviceData",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload[\"2822340\"].devices",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 790,
+        "y": 320,
+        "wires": [
+            [
+                "70a094f681e8d06a"
+            ]
+        ]
+    },
+    {
+        "id": "70a094f681e8d06a",
+        "type": "split",
+        "z": "f8388621e56e3569",
+        "name": "",
+        "splt": "\\n",
+        "spltType": "str",
+        "arraySplt": 1,
+        "arraySpltType": "len",
+        "stream": false,
+        "addname": "",
+        "x": 950,
+        "y": 320,
+        "wires": [
+            [
+                "49893320c93dba92"
+            ]
+        ]
+    },
+    {
+        "id": "49893320c93dba92",
+        "type": "change",
+        "z": "f8388621e56e3569",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "json.data",
+                "pt": "msg",
+                "to": "payload",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "\"INSERT INTO solarpanelfact\t    (FactID, DateID, TimeID, StorageID, tanggalWaktu, TotalPVOutput, TotalGridImport, TotalLoadConsumption, PVPower, GridPower, ConsumptionPower, RateVA)\tSELECT\t    0,\t    dd.DateID,\t    HOUR(NOW()) + 1 AS TimeID,\t    sd.StorageID,\t    '\" & $fromMillis($toMillis($now()), '[Y]-[M]-[D] [H01]:[m01]:[s01]', '+0700') & \"',\t    \" & payload.totalData.epvToday & \",\t    \" & payload.totalData.eToUserToday & \",\t    \" & payload.totalData.useEnergyToday & \", \t    \" & payload.statusData.panelPower & \", \t    \" & payload.statusData.gridPower & \", \t    \" & payload.statusData.loadPower & \", \t    \" & payload.statusData.rateVA & \"\tFROM\t    storagedimension sd\tINNER JOIN\t    datedimension dd\tON\t    dd.TanggalYMD = '\" & $fromMillis($toMillis($now()), '[Y]-[M]-[D]', '+0700') & \"'\tWHERE\t    sd.StorageSN = '\" & payload.historyLast.serialNum & \"';\t\"",
+                "tot": "jsonata"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1120,
+        "y": 320,
+        "wires": [
+            [
+                "402adb39d4dcc8ac"
+            ]
+        ]
+    },
+    {
+        "id": "1182880d61cae8b8",
+        "type": "growatt",
+        "z": "f8388621e56e3569",
+        "confignode": "bd54e3bd718187af",
+        "name": "Lot 2 Level 2 (Growatt)",
+        "optionplantid": "2822340",
+        "optionplantdata": 1,
+        "optiondevicedata": 1,
+        "optionweather": 1,
+        "optiontotaldata": 1,
+        "optionstatusdata": 1,
+        "optiondevicetyp": false,
+        "optionhistorylast": 1,
+        "optionhistoryall": false,
+        "x": 540,
+        "y": 320,
+        "wires": [
+            [
+                "5bd7e19e5d14b270",
+                "a80d6c04c2a1c2da",
+                "469adadf25257562"
+            ]
+        ]
+    },
+    {
+        "id": "30e18e345c9ffcf2",
+        "type": "change",
+        "z": "f8388621e56e3569",
+        "name": "deviceData",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload[\"2809652\"].devices",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 790,
+        "y": 420,
+        "wires": [
+            [
+                "30fd2872ed5a3be5"
+            ]
+        ]
+    },
+    {
+        "id": "30fd2872ed5a3be5",
+        "type": "split",
+        "z": "f8388621e56e3569",
+        "name": "",
+        "splt": "\\n",
+        "spltType": "str",
+        "arraySplt": 1,
+        "arraySpltType": "len",
+        "stream": false,
+        "addname": "",
+        "x": 950,
+        "y": 420,
+        "wires": [
+            [
+                "02322c40415262ce"
+            ]
+        ]
+    },
+    {
+        "id": "02322c40415262ce",
+        "type": "change",
+        "z": "f8388621e56e3569",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "json.data",
+                "pt": "msg",
+                "to": "payload",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "\"INSERT INTO solarpanelfact\t    (FactID, DateID, TimeID, StorageID, tanggalWaktu, TotalPVOutput, TotalGridImport, TotalLoadConsumption, PVPower, GridPower, ConsumptionPower, RateVA)\tSELECT\t    0,\t    dd.DateID,\t    HOUR(NOW()) + 1 AS TimeID,\t    sd.StorageID,\t    '\" & $fromMillis($toMillis($now()), '[Y]-[M]-[D] [H01]:[m01]:[s01]', '+0700') & \"',\t    \" & payload.totalData.epvToday & \",\t    \" & payload.totalData.eToUserToday & \",\t    \" & payload.totalData.useEnergyToday & \", \t    \" & payload.statusData.panelPower & \", \t    \" & payload.statusData.gridPower & \", \t    \" & payload.statusData.loadPower & \", \t    \" & payload.statusData.rateVA & \"\tFROM\t    storagedimension sd\tINNER JOIN\t    datedimension dd\tON\t    dd.TanggalYMD = '\" & $fromMillis($toMillis($now()), '[Y]-[M]-[D]', '+0700') & \"'\tWHERE\t    sd.StorageSN = '\" & payload.historyLast.serialNum & \"';\t\"",
+                "tot": "jsonata"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1120,
+        "y": 420,
+        "wires": [
+            [
+                "402adb39d4dcc8ac"
+            ]
+        ]
+    },
+    {
+        "id": "b51583d97c704497",
+        "type": "growatt",
+        "z": "f8388621e56e3569",
+        "confignode": "bd54e3bd718187af",
+        "name": "Store Area (Growatt)",
+        "optionplantid": "2809652",
+        "optionplantdata": 1,
+        "optiondevicedata": 1,
+        "optionweather": 1,
+        "optiontotaldata": 1,
+        "optionstatusdata": 1,
+        "optiondevicetyp": false,
+        "optionhistorylast": 1,
+        "optionhistoryall": false,
+        "x": 540,
+        "y": 420,
+        "wires": [
+            [
+                "30e18e345c9ffcf2",
+                "a696b5365f33f9d2",
+                "0b2f15bdb6a131d0"
+            ]
+        ]
+    },
+    {
+        "id": "b16b5cb4a79e53ac",
+        "type": "change",
+        "z": "f8388621e56e3569",
+        "name": "deviceData",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload[\"2817348\"].devices",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 790,
+        "y": 520,
+        "wires": [
+            [
+                "46b31fa8bdac4955"
+            ]
+        ]
+    },
+    {
+        "id": "46b31fa8bdac4955",
+        "type": "split",
+        "z": "f8388621e56e3569",
+        "name": "",
+        "splt": "\\n",
+        "spltType": "str",
+        "arraySplt": 1,
+        "arraySpltType": "len",
+        "stream": false,
+        "addname": "",
+        "x": 950,
+        "y": 520,
+        "wires": [
+            [
+                "75e43f79bb50cb58"
+            ]
+        ]
+    },
+    {
+        "id": "75e43f79bb50cb58",
+        "type": "change",
+        "z": "f8388621e56e3569",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "json.data",
+                "pt": "msg",
+                "to": "payload",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "\"INSERT INTO solarpanelfact\t    (FactID, DateID, TimeID, StorageID, tanggalWaktu, TotalPVOutput, TotalGridImport, TotalLoadConsumption, PVPower, GridPower, ConsumptionPower, RateVA)\tSELECT\t    0,\t    dd.DateID,\t    HOUR(NOW()) + 1 AS TimeID,\t    sd.StorageID,\t    '\" & $fromMillis($toMillis($now()), '[Y]-[M]-[D] [H01]:[m01]:[s01]', '+0700') & \"',\t    \" & payload.totalData.epvToday & \",\t    \" & payload.totalData.eToUserToday & \",\t    \" & payload.totalData.useEnergyToday & \", \t    \" & payload.statusData.panelPower & \", \t    \" & payload.statusData.gridPower & \", \t    \" & payload.statusData.loadPower & \", \t    \" & payload.statusData.rateVA & \"\tFROM\t    storagedimension sd\tINNER JOIN\t    datedimension dd\tON\t    dd.TanggalYMD = '\" & $fromMillis($toMillis($now()), '[Y]-[M]-[D]', '+0700') & \"'\tWHERE\t    sd.StorageSN = '\" & payload.historyLast.serialNum & \"';\t\"",
+                "tot": "jsonata"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1120,
+        "y": 520,
+        "wires": [
+            [
+                "402adb39d4dcc8ac"
+            ]
+        ]
+    },
+    {
+        "id": "118b9933fad5e30a",
+        "type": "growatt",
+        "z": "f8388621e56e3569",
+        "confignode": "bd54e3bd718187af",
+        "name": "Lot 2 Level 1 (Growatt)",
+        "optionplantid": "2817348",
+        "optionplantdata": 1,
+        "optiondevicedata": 1,
+        "optionweather": 1,
+        "optiontotaldata": 1,
+        "optionstatusdata": 1,
+        "optiondevicetyp": false,
+        "optionhistorylast": 1,
+        "optionhistoryall": false,
+        "x": 540,
+        "y": 520,
+        "wires": [
+            [
+                "b16b5cb4a79e53ac",
+                "fc6cb3bc9d787187",
+                "0cb0c237669dc947"
+            ]
+        ]
+    },
+    {
+        "id": "30403effd77f9ba3",
+        "type": "change",
+        "z": "f8388621e56e3569",
+        "name": "deviceData",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload[\"2794330\"].devices",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 790,
+        "y": 640,
+        "wires": [
+            [
+                "02e5708d93568a74"
+            ]
+        ]
+    },
+    {
+        "id": "02e5708d93568a74",
+        "type": "split",
+        "z": "f8388621e56e3569",
+        "name": "",
+        "splt": "\\n",
+        "spltType": "str",
+        "arraySplt": 1,
+        "arraySpltType": "len",
+        "stream": false,
+        "addname": "",
+        "x": 950,
+        "y": 640,
+        "wires": [
+            [
+                "ba68431333468d93"
+            ]
+        ]
+    },
+    {
+        "id": "ba68431333468d93",
+        "type": "change",
+        "z": "f8388621e56e3569",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "json.data",
+                "pt": "msg",
+                "to": "payload",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "\"INSERT INTO solarpanelfact\t    (FactID, DateID, TimeID, StorageID, tanggalWaktu, TotalPVOutput, TotalGridImport, TotalLoadConsumption, PVPower, GridPower, ConsumptionPower, RateVA)\tSELECT\t    0,\t    dd.DateID,\t    HOUR(NOW()) + 1 AS TimeID,\t    sd.StorageID,\t    '\" & $fromMillis($toMillis($now()), '[Y]-[M]-[D] [H01]:[m01]:[s01]', '+0700') & \"',\t    \" & payload.totalData.epvToday & \",\t    \" & payload.totalData.eToUserToday & \",\t    \" & payload.totalData.useEnergyToday & \", \t    \" & payload.statusData.panelPower & \", \t    \" & payload.statusData.gridPower & \", \t    \" & payload.statusData.loadPower & \", \t    \" & payload.statusData.rateVA & \"\tFROM\t    storagedimension sd\tINNER JOIN\t    datedimension dd\tON\t    dd.TanggalYMD = '\" & $fromMillis($toMillis($now()), '[Y]-[M]-[D]', '+0700') & \"'\tWHERE\t    sd.StorageSN = '\" & payload.historyLast.serialNum & \"';\t\"",
+                "tot": "jsonata"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1120,
+        "y": 640,
+        "wires": [
+            [
+                "402adb39d4dcc8ac"
+            ]
+        ]
+    },
+    {
+        "id": "3bbfd74b87f38f0a",
+        "type": "growatt",
+        "z": "f8388621e56e3569",
+        "confignode": "bd54e3bd718187af",
+        "name": "Lot 3B (Growatt)",
+        "optionplantid": "2794330",
+        "optionplantdata": 1,
+        "optiondevicedata": 1,
+        "optionweather": 1,
+        "optiontotaldata": 1,
+        "optionstatusdata": 1,
+        "optiondevicetyp": false,
+        "optionhistorylast": 1,
+        "optionhistoryall": false,
+        "x": 520,
+        "y": 640,
+        "wires": [
+            [
+                "30403effd77f9ba3",
+                "e371ad8cb6e99c34",
+                "4fe620d26bb097ea"
+            ]
+        ]
+    },
+    {
+        "id": "267a9020365de64d",
+        "type": "change",
+        "z": "f8388621e56e3569",
+        "name": "deviceData",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "payload[\"2844168\"].devices",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 770,
+        "y": 760,
+        "wires": [
+            [
+                "5d9fd3c015f8e0c1"
+            ]
+        ]
+    },
+    {
+        "id": "5d9fd3c015f8e0c1",
+        "type": "split",
+        "z": "f8388621e56e3569",
+        "name": "",
+        "splt": "\\n",
+        "spltType": "str",
+        "arraySplt": 1,
+        "arraySpltType": "len",
+        "stream": false,
+        "addname": "",
+        "x": 930,
+        "y": 760,
+        "wires": [
+            [
+                "85e2ddb24f3a3d99"
+            ]
+        ]
+    },
+    {
+        "id": "85e2ddb24f3a3d99",
+        "type": "change",
+        "z": "f8388621e56e3569",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "json.data",
+                "pt": "msg",
+                "to": "payload",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "\"INSERT INTO solarpanelfact\t    (FactID, DateID, TimeID, StorageID, tanggalWaktu, TotalPVOutput, TotalGridImport, TotalLoadConsumption, PVPower, GridPower, ConsumptionPower, RateVA)\tSELECT\t    0,\t    dd.DateID,\t    HOUR(NOW()) + 1 AS TimeID,\t    sd.StorageID,\t    '\" & $fromMillis($toMillis($now()), '[Y]-[M]-[D] [H01]:[m01]:[s01]', '+0700') & \"',\t    \" & payload.totalData.epvToday & \",\t    \" & payload.totalData.eToUserToday & \",\t    \" & payload.totalData.useEnergyToday & \", \t    \" & payload.statusData.panelPower & \", \t    \" & payload.statusData.gridPower & \", \t    \" & payload.statusData.loadPower & \", \t    \" & payload.statusData.rateVA & \"\tFROM\t    storagedimension sd\tINNER JOIN\t    datedimension dd\tON\t    dd.TanggalYMD = '\" & $fromMillis($toMillis($now()), '[Y]-[M]-[D]', '+0700') & \"'\tWHERE\t    sd.StorageSN = '\" & payload.historyLast.serialNum & \"';\t\"",
+                "tot": "jsonata"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 1100,
+        "y": 760,
+        "wires": [
+            [
+                "402adb39d4dcc8ac"
+            ]
+        ]
+    },
+    {
+        "id": "2ddd9b737111fe85",
+        "type": "growatt",
+        "z": "f8388621e56e3569",
+        "confignode": "bd54e3bd718187af",
+        "name": "Lot 3 SMT MI (Growatt)",
+        "optionplantid": "2844168",
+        "optionplantdata": 1,
+        "optiondevicedata": 1,
+        "optionweather": 1,
+        "optiontotaldata": 1,
+        "optionstatusdata": 1,
+        "optiondevicetyp": false,
+        "optionhistorylast": 1,
+        "optionhistoryall": false,
+        "x": 530,
+        "y": 760,
+        "wires": [
+            [
+                "267a9020365de64d",
+                "84687db8f2e92edb"
+            ]
+        ]
+    },
+    {
+        "id": "402adb39d4dcc8ac",
+        "type": "mysql",
+        "z": "f8388621e56e3569",
+        "mydb": "92f2558d4de5e82f",
+        "name": "solarPanel starSchema",
+        "x": 1550,
+        "y": 380,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "55ad3d03ed1a22e5",
+        "type": "change",
+        "z": "f8388621e56e3569",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "json.data",
+                "pt": "msg",
+                "to": "payload",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "\"INSERT INTO datedimension\t    (DateID, TanggalYMD, PCIWorkWeek, PCIMonth)\tVALUES\t    (0,\t    '\" & $fromMillis($toMillis($now()), '[Y]-[M]-[D]', '+0700') & \"',\t    NULL,\t    NULL);\t\"",
+                "tot": "jsonata"
+            },
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "\"\tINSERT INTO timedimension\t    (TimeID, WaktuHMS, TimeStamp)\tVALUES\t    (0,\t    '\" & $fromMillis($toMillis($now()), '[H01]:[m01]:00', '+0700') & \"',\t    NULL);\t\"",
+                "tot": "jsonata"
+            },
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "\"INSERT INTO storagedimension\t    (StorageID, StorageSN, PowerMeterID, Building)\tVALUES\t    (0,\t    '\" & payload.historyLast.serialNum & \"',\t    '\" & payload.deviceData.datalogSn & \"',\t    'PCILighting');\t\"",
+                "tot": "jsonata"
+            },
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "\"INSERT INTO solarpanelfact\t    (FactID, TotalPVOutput, TotalGridImport, TotalLoadConsumption, PVPower, GridPower, ConsumptionPower, RateVA)\tVALUES\t    (0, \t    \" & payload.totalData.epvToday & \",\t    \" & payload.totalData.eToUserToday & \",\t    \" & payload.totalData.useEnergyToday & \", \t    \" & payload.statusData.panelPower & \", \t    \" & payload.statusData.gridPower & \", \t    \" & payload.statusData.loadPower & \", \t    \" & payload.statusData.rateVA & \");\t\"",
+                "tot": "jsonata"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 860,
+        "y": 60,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "4a018a2cb15c0a08",
+        "type": "function",
+        "z": "f8388621e56e3569",
+        "name": "function 38",
+        "func": "msg = {};\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 310,
+        "y": 760,
+        "wires": [
+            [
+                "2ddd9b737111fe85"
+            ]
+        ]
+    },
+    {
+        "id": "3ee584a18cf2c36a",
+        "type": "function",
+        "z": "f8388621e56e3569",
+        "name": "function 37",
+        "func": "msg = {};\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 310,
+        "y": 640,
+        "wires": [
+            [
+                "3bbfd74b87f38f0a"
+            ]
+        ]
+    },
+    {
+        "id": "3357b8a8d79702d4",
+        "type": "function",
+        "z": "f8388621e56e3569",
+        "name": "function 36",
+        "func": "msg = {};\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 330,
+        "y": 520,
+        "wires": [
+            [
+                "118b9933fad5e30a"
+            ]
+        ]
+    },
+    {
+        "id": "bad260a5a74fbe5b",
+        "type": "function",
+        "z": "f8388621e56e3569",
+        "name": "function 34",
+        "func": "msg = {};\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 330,
+        "y": 320,
+        "wires": [
+            [
+                "1182880d61cae8b8"
+            ]
+        ]
+    },
+    {
+        "id": "aecf00955b945fd7",
+        "type": "function",
+        "z": "f8388621e56e3569",
+        "name": "function 35",
+        "func": "msg = {};\nreturn msg;",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 330,
+        "y": 420,
+        "wires": [
+            [
+                "b51583d97c704497"
+            ]
+        ]
+    },
+    {
+        "id": "e371ad8cb6e99c34",
+        "type": "delay",
+        "z": "f8388621e56e3569",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "10",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 140,
+        "y": 760,
+        "wires": [
+            [
+                "4a018a2cb15c0a08"
+            ]
+        ]
+    },
+    {
+        "id": "fc6cb3bc9d787187",
+        "type": "delay",
+        "z": "f8388621e56e3569",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "10",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 140,
+        "y": 640,
+        "wires": [
+            [
+                "3ee584a18cf2c36a"
+            ]
+        ]
+    },
+    {
+        "id": "a696b5365f33f9d2",
+        "type": "delay",
+        "z": "f8388621e56e3569",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "10",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 160,
+        "y": 520,
+        "wires": [
+            [
+                "3357b8a8d79702d4"
+            ]
+        ]
+    },
+    {
+        "id": "a80d6c04c2a1c2da",
+        "type": "delay",
+        "z": "f8388621e56e3569",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "10",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 160,
+        "y": 420,
+        "wires": [
+            [
+                "aecf00955b945fd7"
+            ]
+        ]
+    },
+    {
+        "id": "0f6d575a6c81f668",
+        "type": "delay",
+        "z": "f8388621e56e3569",
+        "name": "",
+        "pauseType": "delay",
+        "timeout": "10",
+        "timeoutUnits": "seconds",
+        "rate": "1",
+        "nbRateUnits": "1",
+        "rateUnits": "second",
+        "randomFirst": "1",
+        "randomLast": "5",
+        "randomUnits": "seconds",
+        "drop": false,
+        "allowrate": false,
+        "outputs": 1,
+        "x": 160,
+        "y": 320,
+        "wires": [
+            [
+                "bad260a5a74fbe5b"
+            ]
+        ]
+    },
+    {
+        "id": "e6c8f180438731f5",
+        "type": "function",
+        "z": "f8388621e56e3569",
+        "name": "contributionData",
+        "func": "if (msg.payload && msg.payload[\"2075963\"] && msg.payload[\"2075963\"].plantData) {\n    const co2 = msg.payload[\"2075963\"].plantData.co2;\n    const tree = msg.payload[\"2075963\"].plantData.tree;\n    const coal = msg.payload[\"2075963\"].plantData.coal;\n\n    const now = new Date();\n    now.setHours(now.getHours() + 7);\n    const formattedDate = now.toISOString().slice(0, 19).replace('T', ' '); // Format to 'YYYY-MM-DD HH:mm:ss'\n    const sqlInsert = `INSERT INTO socialcontribution (ID, tanggalWaktu, Building, Emission, Deforestation, Coal)\n    VALUES (0, '${formattedDate}', 'PCI Lighting', ${co2}, ${tree}, ${coal});`;\n    msg.topic = sqlInsert;\n} else {\n    msg.topic = \"Invalid payload structure. Please check the incoming data.\";\n}\n\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 620,
+        "y": 240,
+        "wires": [
+            [
+                "402adb39d4dcc8ac"
+            ]
+        ]
+    },
+    {
+        "id": "469adadf25257562",
+        "type": "function",
+        "z": "f8388621e56e3569",
+        "name": "contributionData",
+        "func": "if (msg.payload && msg.payload[\"2822340\"] && msg.payload[\"2822340\"].plantData) {\n    const co2 = msg.payload[\"2822340\"].plantData.co2;\n    const tree = msg.payload[\"2822340\"].plantData.tree;\n    const coal = msg.payload[\"2822340\"].plantData.coal;\n\n    const now = new Date();\n    now.setHours(now.getHours() + 7);\n    const formattedDate = now.toISOString().slice(0, 19).replace('T', ' '); // Format to 'YYYY-MM-DD HH:mm:ss'\n    const sqlInsert = `INSERT INTO socialcontribution (ID, tanggalWaktu, Building, Emission, Deforestation, Coal)\n    VALUES (0, '${formattedDate}', 'Lot2 Level2', ${co2}, ${tree}, ${coal});`;\n    msg.topic = sqlInsert;\n} else {\n    msg.topic = \"Invalid payload structure. Please check the incoming data.\";\n}\n\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 800,
+        "y": 360,
+        "wires": [
+            [
+                "402adb39d4dcc8ac"
+            ]
+        ]
+    },
+    {
+        "id": "0b2f15bdb6a131d0",
+        "type": "function",
+        "z": "f8388621e56e3569",
+        "name": "contributionData",
+        "func": "if (msg.payload && msg.payload[\"2809652\"] && msg.payload[\"2809652\"].plantData) {\n    const co2 = msg.payload[\"2809652\"].plantData.co2;\n    const tree = msg.payload[\"2809652\"].plantData.tree;\n    const coal = msg.payload[\"2809652\"].plantData.coal;\n\n    const now = new Date();\n    now.setHours(now.getHours() + 7);\n    const formattedDate = now.toISOString().slice(0, 19).replace('T', ' '); // Format to 'YYYY-MM-DD HH:mm:ss'\n    const sqlInsert = `INSERT INTO socialcontribution (ID, tanggalWaktu, Building, Emission, Deforestation, Coal)\n    VALUES (0, '${formattedDate}', 'Store Area', ${co2}, ${tree}, ${coal});`;\n    msg.topic = sqlInsert;\n} else {\n    msg.topic = \"Invalid payload structure. Please check the incoming data.\";\n}\n\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 800,
+        "y": 460,
+        "wires": [
+            [
+                "402adb39d4dcc8ac"
+            ]
+        ]
+    },
+    {
+        "id": "0cb0c237669dc947",
+        "type": "function",
+        "z": "f8388621e56e3569",
+        "name": "contributionData",
+        "func": "if (msg.payload && msg.payload[\"2817348\"] && msg.payload[\"2817348\"].plantData) {\n    const co2 = msg.payload[\"2817348\"].plantData.co2;\n    const tree = msg.payload[\"2817348\"].plantData.tree;\n    const coal = msg.payload[\"2817348\"].plantData.coal;\n\n    const now = new Date();\n    now.setHours(now.getHours() + 7);\n    const formattedDate = now.toISOString().slice(0, 19).replace('T', ' '); // Format to 'YYYY-MM-DD HH:mm:ss'\n    const sqlInsert = `INSERT INTO socialcontribution (ID, tanggalWaktu, Building, Emission, Deforestation, Coal)\n    VALUES (0, '${formattedDate}', 'Lot2 Level1', ${co2}, ${tree}, ${coal});`;\n    msg.topic = sqlInsert;\n} else {\n    msg.topic = \"Invalid payload structure. Please check the incoming data.\";\n}\n\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 800,
+        "y": 560,
+        "wires": [
+            [
+                "402adb39d4dcc8ac"
+            ]
+        ]
+    },
+    {
+        "id": "4fe620d26bb097ea",
+        "type": "function",
+        "z": "f8388621e56e3569",
+        "name": "contributionData",
+        "func": "if (msg.payload && msg.payload[\"2794330\"] && msg.payload[\"2794330\"].plantData) {\n    const co2 = msg.payload[\"2794330\"].plantData.co2;\n    const tree = msg.payload[\"2794330\"].plantData.tree;\n    const coal = msg.payload[\"2794330\"].plantData.coal;\n\n    const now = new Date();\n    now.setHours(now.getHours() + 7);\n    const formattedDate = now.toISOString().slice(0, 19).replace('T', ' '); // Format to 'YYYY-MM-DD HH:mm:ss'\n    const sqlInsert = `INSERT INTO socialcontribution (ID, tanggalWaktu, Building, Emission, Deforestation, Coal)\n    VALUES (0, '${formattedDate}', 'Lot3B', ${co2}, ${tree}, ${coal});`;\n    msg.topic = sqlInsert;\n} else {\n    msg.topic = \"Invalid payload structure. Please check the incoming data.\";\n}\n\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 800,
+        "y": 680,
+        "wires": [
+            [
+                "402adb39d4dcc8ac"
+            ]
+        ]
+    },
+    {
+        "id": "84687db8f2e92edb",
+        "type": "function",
+        "z": "f8388621e56e3569",
+        "name": "contributionData",
+        "func": "if (msg.payload && msg.payload[\"2844168\"] && msg.payload[\"2844168\"].plantData) {\n    const co2 = msg.payload[\"2844168\"].plantData.co2;\n    const tree = msg.payload[\"2844168\"].plantData.tree;\n    const coal = msg.payload[\"2844168\"].plantData.coal;\n\n    const now = new Date();\n    now.setHours(now.getHours() + 7);\n    const formattedDate = now.toISOString().slice(0, 19).replace('T', ' '); // Format to 'YYYY-MM-DD HH:mm:ss'\n    const sqlInsert = `INSERT INTO socialcontribution (ID, tanggalWaktu, Building, Emission, Deforestation, Coal)\n    VALUES (0, '${formattedDate}', 'Lot3 SMT MI', ${co2}, ${tree}, ${coal});`;\n    msg.topic = sqlInsert;\n} else {\n    msg.topic = \"Invalid payload structure. Please check the incoming data.\";\n}\n\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": 0,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 780,
+        "y": 800,
+        "wires": [
+            [
+                "402adb39d4dcc8ac"
+            ]
+        ]
+    },
+    {
+        "id": "81305d58cdefa966",
+        "type": "function",
+        "z": "f8388621e56e3569",
+        "name": "Time Filter",
+        "func": "// Get the current hour\nvar currentHour = new Date().getHours();\n\n// Only proceed if the current hour is between 07:00 and 19:00\nif (currentHour >= 7 && currentHour < 19) {\n    node.warn(\"Current Hour: \" + currentHour);  // Log to the debug panel\n    return msg;  // Pass the message through if within the allowed time range\n} else {\n    node.warn(\"Blocking message. Current hour: \" + currentHour);\n    return null;  // Block the message\n}\n",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 130,
+        "y": 180,
+        "wires": [
+            [
+                "17a92169c717b168"
+            ]
+        ]
+    },
+    {
+        "id": "f1f2b6e08c596b9a",
+        "type": "inject",
+        "z": "f8388621e56e3569",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "0 0-23 * * *",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 110,
+        "y": 100,
+        "wires": [
+            [
+                "81305d58cdefa966"
+            ]
+        ]
+    },
+    {
+        "id": "7dacbed44af377d6",
+        "type": "growatt-config",
+        "name": "Growatt credentials 2",
+        "username": "pcifacility"
+    },
+    {
+        "id": "bd54e3bd718187af",
+        "type": "growatt-config",
+        "name": "Growatt credentials 2",
+        "username": "pcifacility"
+    },
+    {
+        "id": "92f2558d4de5e82f",
+        "type": "MySQLdatabase",
+        "name": "",
+        "host": "10.38.11.3",
+        "port": "3306",
+        "db": "star_schemas_solarpanel",
+        "tz": "",
+        "charset": "UTF8"
+    }
+]
